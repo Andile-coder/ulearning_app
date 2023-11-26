@@ -14,6 +14,7 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
+  PageController pageController = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +28,7 @@ class _WelcomeState extends State<Welcome> {
               alignment: Alignment.topCenter,
               children: [
                 PageView(
+                  controller: pageController,
                   onPageChanged: (index) {
                     state.page = index;
                     BlocProvider.of<WelcomeBloc>(context).add(WelcomeEvent());
@@ -38,21 +40,21 @@ class _WelcomeState extends State<Welcome> {
                         "Next",
                         "First See Learning",
                         "Forget about a for of paper all knowledge is one learning",
-                        "imagepath"),
+                        "assets/images/reading.png"),
                     _page(
                         1,
                         context,
                         "Next",
                         "Connect With everyone",
                         "Always keep in touch with your tutor & friend, Let;s get connected",
-                        "imagepath"),
+                        "assets/images/boy.png"),
                     _page(
                         2,
                         context,
                         "Get Started",
                         "Always Fascinated Learning",
                         "Anywhere, anytime. The time is at our descretion so study whenever you want.",
-                        "imagepath"),
+                        "assets/images/man.png"),
                   ],
                 ),
                 Positioned(
@@ -65,7 +67,7 @@ class _WelcomeState extends State<Welcome> {
                           activeColor: Colors.blue,
                           color: Colors.grey,
                           size: const Size.square(8),
-                          activeSize: const Size(10.0, 8.0),
+                          activeSize: const Size(18.0, 8.0),
                           activeShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5))),
                     ))
@@ -82,7 +84,10 @@ class _WelcomeState extends State<Welcome> {
         SizedBox(
           width: 345.w,
           height: 345.w,
-          child: Text("Image One"),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
         ),
         Container(
           child: Text(
@@ -98,32 +103,46 @@ class _WelcomeState extends State<Welcome> {
           padding: EdgeInsets.only(left: 30.w, right: 30.w),
           child: Text(
             subtitle,
+            textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.black.withOpacity(0.5),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.normal),
+              color: Colors.black.withOpacity(0.5),
+              fontSize: 14.sp,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ),
-        Container(
-          width: 325.w,
-          height: 50.h,
-          margin: EdgeInsets.only(top: 100.h, right: 25.w, left: 25.w),
-          decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.all(Radius.circular(15.w)),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    offset: Offset(0, 1))
-              ]),
-          child: Center(
-              child: Text(buttonName,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.normal))),
+        GestureDetector(
+          onTap: () {
+            if (index < 3) {
+              //animation
+              pageController.animateToPage(index + 1,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeIn);
+            } else {
+              //jump to next page
+            }
+          },
+          child: Container(
+            width: 325.w,
+            height: 50.h,
+            margin: EdgeInsets.only(top: 100.h, right: 25.w, left: 25.w),
+            decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.all(Radius.circular(15.w)),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: Offset(0, 1))
+                ]),
+            child: Center(
+                child: Text(buttonName,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.normal))),
+          ),
         )
       ],
     );
